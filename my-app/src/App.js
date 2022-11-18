@@ -1,19 +1,22 @@
-import {useState , useEffect} from 'react'
-import './App.css';
-
+// import {useState , useEffect} from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './views/Home'
+// import Axios from 'axios'
+import './App.css'
 function App() {
-  const [state, setState] = useState('red')
-  useEffect(() => {
-    console.log('hhh')
-  }, [state])
-
-  const handleBtn = () => {
-    setState(s => s === 'red' ? 'green' : 'red')
-  }
+  
+  const Contact = () => <p>Contact</p>
+  const About = () => <p>About</p>
+  
   return (
     <div className="App">
-      <p style={{color :state }}>{state}</p>
-      <button onClick={handleBtn}>Click</button>
+<Router>
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/Contact" element={<Contact />} />
+  <Route path="/About" element={<About />} />
+</Routes>
+</Router>
     </div>
   ); 
 }
