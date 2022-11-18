@@ -1,22 +1,14 @@
-// import {useState , useEffect} from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './views/Home'
+import {Routing} from './Routing'
 // import Axios from 'axios'
 import './App.css'
+import { NavBar } from './NavBar';
 function App() {
-  
-  const Contact = () => <p>Contact</p>
-  const About = () => <p>About</p>
-  
+
   return (
     <div className="App">
-<Router>
-<Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/Contact" element={<Contact />} />
-  <Route path="/About" element={<About />} />
-</Routes>
-</Router>
+      <Routing>
+      <NavBar />
+      </Routing>
     </div>
   ); 
 }
