@@ -5,7 +5,9 @@ import { Home } from '.././views'
 import { Contact } from '.././views'
 import { About } from '.././views'
 
-function Routing({children}) {  
+function Routing({children}) {
+    
+    console.log()
 
   return (
 <div className="App">
@@ -21,7 +23,7 @@ function Routing({children}) {
   ); 
 }
 Routing.prototypes ={
-    children: PropTypes.object.node,
+    children: PropTypes.node,
 }
 
 export default Routing;
