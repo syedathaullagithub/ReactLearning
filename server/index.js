@@ -16,8 +16,6 @@ app.use(express.json())
 app.use(cors())
 
 app.post("/", (req, res) => {
-    console.log(req);
-    console.log(res);
     const moviename= req.body.movieName
     const moviereview= req.body.movieReview
     const sqlInsert = "INSERT INTO reactproject.movies (moviename, moviereview) VALUES (?,?);"
@@ -27,8 +25,35 @@ app.post("/", (req, res) => {
     })
 })
 
-// app.get('/getmovies', (req, res) => {
-// });
+app.put("/updateMovie", (req, res) => {
+    const moviename= req.body.movieName
+    const moviereview= req.body.movieReview
+    const idmovies = req.body.idmovies
+    console.log(moviename)
+    const sqlUpdate = `UPDATE reactproject.movies SET moviename = '${moviename}', moviereview = '${moviereview}' WHERE idmovies = ${idmovies};`
+    db.query(sqlUpdate, [ moviename, moviereview ], (err, result) => {
+        console.log(err);
+        res.send('Addedqq')
+    })
+})
+
+app.get('/getmovies', (req, res) => {
+    const sqlGet = "SELECT * FROM reactproject.movies;"
+    db.query(sqlGet, (err, result) => {
+        console.log(err);
+        res.send(result)
+    })
+});
+
+app.delete('/deletemovie', (req, res) => {
+    const idmovies= req.body.idmovies
+    console.log(idmovies)
+    const sqlGet = `DELETE FROM reactproject.movies WHERE idmovies=${idmovies};`
+    db.query(sqlGet, (err, result) => {
+        console.log(err);
+        res.send(result)
+    })
+});
 
 
 app.listen(3001, ()=> {
