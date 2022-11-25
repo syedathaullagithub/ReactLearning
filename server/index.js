@@ -38,9 +38,8 @@ app.put("/updateMovie", (req, res) => {
 })
 
 app.get('/getmovies', (req, res) => {
-    const sqlGet = "SELECT * FROM reactproject.movies;"
+    const sqlGet = "SELECT * FROM reactproject.movies ORDER BY idmovies Desc;"
     db.query(sqlGet, (err, result) => {
-        console.log(err);
         res.send(result)
     })
 });

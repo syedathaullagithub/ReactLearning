@@ -1,5 +1,6 @@
  import React, {useState, useEffect} from "react";
  import Axios from "axios";
+ import {Box, Card, Button, Typography, TextField, CardActions,CardContent} from '@mui/material';
 
  const Contact = () => {
 const [movieName ,setMovieName] = useState('')
@@ -58,26 +59,34 @@ const handleSearchMovies = value =>{
        .then(({data}) => setMovies(data))
 }
     return (
-        <div>
-        <h1>Add Movie Review</h1>
-        <label>Movie Name :</label>
-         <input type="text" name="movieName" value={movieName} onChange={(e)=>{setMovieName(e.target.value)}} />
-         <label>Movie Review :</label>
-         <input type="text" name="movieReview" value={movieReview} onChange={(e)=>{setMovieReview(e.target.value)}} />
-         <button onClick={handleAddMovie}>{`${isAdd ? 'Add' : 'update'} Movie review`}</button>
-
-         <h2>Search movies</h2>
-         <label>Search by name :</label>
-         <input type="text" name="movieName" onChange={(e)=>{handleSearchMovies(e.target.value)}} />
+            <Box style={{display:'flex', padding: '8px'}}>
+            <div>
+ <Typography variant="h4"> Add Movie Review</Typography>
+        <TextField sx={{ margin:'8px', width:'400px'}} label="Movie Name " variant="outlined" name="movieName" value={movieName} onChange={(e)=>{setMovieName(e.target.value)}} />
+        <TextField  sx={{ margin:'8px', width:'400px'}} label="Movie Review " variant="outlined" name="movieReview" value={movieReview} onChange={(e)=>{setMovieReview(e.target.value)}} />
+        <Button sx={{ margin:'8px', display:'block'}}style={{ marginTop: '12px' }} onClick={handleAddMovie}>{`${isAdd ? 'Add' : 'update'} Movie review`}</Button>
+            </div>   
+         <div>
+         <Typography sx={{ margin:'8px'}} variant="h6">Movies List</Typography>
+         <TextField sx={{ margin:'8px', width:'400px'}} label="Search by name" name="serchMovieName" onChange={(e)=>{handleSearchMovies(e.target.value)}} />
          {movies?.map(m => (
-            <div key={m.idmovies}>
-            <h3>{`${m.idmovies} Movie Name : ${m.moviename},   Movie Review : ${m.moviereview} `}
-             <button onClick={() => handleDelete(m.idmovies)}>Del</button>
-           <button onClick={() => handleUpdate(m.idmovies)} disabled={m.idmovies === movieId && !isAdd}>Update</button>
-             </h3>
-            </div>
-            ))}
-        </div> 
+           <Card sx={{ width: 800 , margin:'8px'}}key={m.idmovies}>
+<CardContent>
+  <Typography gutterBottom variant="h6" component="div">
+    {m.moviename}
+  </Typography>
+  <Typography variant="body2" color="text.secondary">
+    {m.moviereview}
+  </Typography>
+</CardContent>
+<CardActions>
+<Button onClick={() => handleDelete(m.idmovies)}>Del</Button>
+<Button onClick={() => handleUpdate(m.idmovies)} disabled={m.idmovies === movieId && !isAdd}>Update</Button> 
+</CardActions>
+</Card>
+))}
+ </div>
+ </Box>
     )
  }
 
