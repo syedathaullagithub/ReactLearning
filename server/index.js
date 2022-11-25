@@ -45,6 +45,14 @@ app.get('/getmovies', (req, res) => {
     })
 });
 
+app.get('/searchmovies', (req, res) => {
+    const moviename= req.query.movieName
+    const sqlGet = `SELECT * FROM reactproject.movies WHERE moviename LIKE '%${moviename}%';`
+    db.query(sqlGet, (err, result) => {
+        res.send(result)
+    })
+});
+
 app.delete('/deletemovie', (req, res) => {
     const idmovies= req.body.idmovies
     console.log(idmovies)
