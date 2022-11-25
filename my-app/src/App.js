@@ -1,6 +1,4 @@
 import {Routing} from './Routing'
-// import Axios from 'axios'
-import './App.css'
 import { NavBar } from './NavBar';
 function App() {
 

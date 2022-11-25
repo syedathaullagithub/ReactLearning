@@ -33,9 +33,6 @@ const handleUpdate = async(id) =>{
     setMovieId(id)
      Axios.put('http://localhost:3001/updatemovie',{movieName: movieName,
     movieReview: movieReview, idmovies: id}).then(()=> handleGetMovie())
-
-    console.log(movieName)
-    console.log(movieReview)
 }
 
 const handleAddMovie = () => {
@@ -53,6 +50,13 @@ const handleAddMovie = () => {
     }
     
 }
+
+const handleSearchMovies = value =>{
+    Axios.get('http://localhost:3001/searchmovies',{params: {
+        movieName: value}
+      })
+       .then(({data}) => setMovies(data))
+}
     return (
         <div>
         <h1>Add Movie Review</h1>
@@ -61,11 +65,15 @@ const handleAddMovie = () => {
          <label>Movie Review :</label>
          <input type="text" name="movieReview" value={movieReview} onChange={(e)=>{setMovieReview(e.target.value)}} />
          <button onClick={handleAddMovie}>{`${isAdd ? 'Add' : 'update'} Movie review`}</button>
+
+         <h2>Search movies</h2>
+         <label>Search by name :</label>
+         <input type="text" name="movieName" onChange={(e)=>{handleSearchMovies(e.target.value)}} />
          {movies?.map(m => (
             <div key={m.idmovies}>
             <h3>{`${m.idmovies} Movie Name : ${m.moviename},   Movie Review : ${m.moviereview} `}
              <button onClick={() => handleDelete(m.idmovies)}>Del</button>
-             <button onClick={() => handleUpdate(m.idmovies)}>Update</button>
+           <button onClick={() => handleUpdate(m.idmovies)} disabled={m.idmovies === movieId && !isAdd}>Update</button>
              </h3>
             </div>
             ))}
