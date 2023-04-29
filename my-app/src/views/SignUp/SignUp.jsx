@@ -10,7 +10,7 @@ const elements ={
   firstName:{name: 'firstName', label: 'First Name'},
     lastName:{name: 'lastName', label: 'Last Name'},
     userName:{name: 'userName', label: 'Username'},
-    Password:{name: 'Password', label: 'Password'},
+    password:{name: 'password', label: 'Password'},
     cnfPassword:{name: 'cnfPassword', label: 'Confirm Password'},
     // createdOn: {name: 'firstName', label: 'First Name'},
 }
@@ -19,10 +19,10 @@ const validationSchema = object().shape({
     [elements.firstName.name]:string().required('required'),
     [elements.lastName.name]:string().required('required'),
     [elements.userName.name]:string().required('required'),
-    [elements.Password.name]:string().required('required'),
-    [elements.cnfPassword.name]:string().oneOf([ref('Password'), 'password must be same']),
+    [elements.password.name]:string().required('required'),
+    [elements.cnfPassword.name]:string().required('required').oneOf([ref('password'), 'password must be same']),
     // [elements.createdOn]: string().default('jjjj'),
-    sex:string().required('required'),
+    sex:string().required('required').nullable(),
 })
 
 console.log(validationSchema);
@@ -53,7 +53,6 @@ const SignUp = () => {
    return (
     <Box
     style={{
-     backgroundColor:'lightBlue',
      ...alignItems,
     }}
     >
@@ -70,7 +69,7 @@ const SignUp = () => {
       display:'grid',
        }}>
       <TextFields register={register} errors={errors} elements={elements}/>
-       <RadioBtn register={register} />
+       <RadioBtn register={register} errors={errors} />
       <Button type="submit" style={{ marginTop: '12px'}}>Register</Button>
         </form>
       </div>
