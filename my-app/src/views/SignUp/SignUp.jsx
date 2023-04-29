@@ -83,7 +83,7 @@ const SignUp = () => {
       padding:'8px',
       textAlign:'center',
        }}>
-            User Registrations
+            Yup validation test
         </Typography>
         <form onSubmit={handleSubmit(handleRegister)}  style={{
       display:'grid',
