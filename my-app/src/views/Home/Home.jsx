@@ -1,3 +1,3 @@
- const Home = () => <p>Home</p>
+const Home = () => <p>Home</p>;
 
- export default Home;
+export default Home;
