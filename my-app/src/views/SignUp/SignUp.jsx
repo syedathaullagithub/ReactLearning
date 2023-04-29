@@ -1,21 +1,36 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import {Box, Button, Typography, TextField, Snackbar} from '@mui/material';
-import * as yup from 'yup'
+import {Box, Button, Typography } from '@mui/material';
+// import * as yup from 'yup'
+import { string, object, ref, date } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { RadioBtn, TextFields, SnackbarMsg } from "./components";
 
-const validationSchema = yup.object().shape({
-    firstName:yup.string().required('required'),
-    lastName:yup.string().required('required'),
-    userName:yup.string().required('required'),
-    Password:yup.string().required('required'),
-    cnfPassword:yup.string().oneOf([yup.ref('Password'), 'password must be same']),
+const elements ={
+  firstName:{name: 'firstName', label: 'First Name'},
+    lastName:{name: 'lastName', label: 'Last Name'},
+    userName:{name: 'userName', label: 'Username'},
+    Password:{name: 'Password', label: 'Password'},
+    cnfPassword:{name: 'cnfPassword', label: 'Confirm Password'},
+    // createdOn: {name: 'firstName', label: 'First Name'},
+}
+
+const validationSchema = object().shape({
+    [elements.firstName.name]:string().required('required'),
+    [elements.lastName.name]:string().required('required'),
+    [elements.userName.name]:string().required('required'),
+    [elements.Password.name]:string().required('required'),
+    [elements.cnfPassword.name]:string().oneOf([ref('Password'), 'password must be same']),
+    // [elements.createdOn]: string().default('jjjj'),
+    sex:string().required('required'),
 })
+
+console.log(validationSchema);
 
 const SignUp = () => {
     const [open, setOpen] = React.useState(false);
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset , getValues} = useForm({
         resolver: yupResolver(validationSchema),
     });
 
@@ -29,38 +44,37 @@ const SignUp = () => {
        reset()
     }
 
+    const alignItems ={
+      display:'flex',
+      alignItems:'center',
+      justifyContent:'center'
+    }
+
    return (
     <Box
-    sx={{
-      '& > :not(style)': { m: 1, width: '25ch' },
+    style={{
+     backgroundColor:'lightBlue',
+     ...alignItems,
     }}
     >
-        <Typography variant="h6">
+      <div
+      style={{width:'30%'}}>
+      <Typography variant="h6"
+       style={{
+      padding:'8px',
+      textAlign:'center',
+       }}>
             User Registrations
         </Typography>
-        <form onSubmit={handleSubmit(handleRegister)}>
-      <TextField label="First Name" variant="standard" {...register('firstName')} />
-      {errors.firstName && <span>{errors.firstName.message}</span>}
-      <TextField label="Last Name" variant="standard"  {...register('lastName')} />
-      {errors.lastName && <span>{errors.lastName.message}</span>}
-      <TextField label="Username" variant="standard" {...register('userName')} />
-      {errors.userName && <span>{errors.userName.message}</span>}
-      <TextField type="password" label="Password" variant="standard" {...register('Password')} />
-      {errors.Password && <span>{errors.Password.message}</span>}
-      <TextField type="cnfPassword" label="Confirm Password" variant="standard" {...register('cnfPassword')} />
-      {errors.cnfPassword && <span>{errors.cnfPassword.message}</span>}
+        <form onSubmit={handleSubmit(handleRegister)}  style={{
+      display:'grid',
+       }}>
+      <TextFields register={register} errors={errors} elements={elements}/>
+       <RadioBtn register={register} />
       <Button type="submit" style={{ marginTop: '12px'}}>Register</Button>
         </form>
-        <Snackbar
-  open={open}
-  anchorOrigin={{
-    vertical: 'bottom',
-    horizontal: 'center',
-  }}
-  autoHideDuration={6000}
-  onClose={handleClick}
-  message="User registration has been successfully registered"
-/>
+      </div>
+      <SnackbarMsg open={open} onSnackbarClick={handleClick} />
     </Box>
    )
 }

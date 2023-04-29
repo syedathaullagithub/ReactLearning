@@ -68,7 +68,7 @@ const handleSearchMovies = value =>{
             </div>   
          <div>
          <Typography sx={{ margin:'8px'}} variant="h6">Movies List</Typography>
-         <TextField sx={{ margin:'8px', width:'400px'}} label="Search by name" name="serchMovieName" onChange={(e)=>{handleSearchMovies(e.target.value)}} />
+         {movies?.length > 0 && <TextField sx={{margin:'8px', width:'400px'}} label="Search by name" name="serchMovieName" onChange={(e)=>{handleSearchMovies(e.target.value)}} />}
          {movies?.map(m => (
            <Card sx={{ width: 800 , margin:'8px'}}key={m.idmovies}>
 <CardContent>
@@ -85,6 +85,9 @@ const handleSearchMovies = value =>{
 </CardActions>
 </Card>
 ))}
+{movies?.length === 0 &&
+    <div style={{display:'flex' , alignItems:'center', justifyContent:'center',  }}>No data</div>
+}     
  </div>
  </Box>
     )
