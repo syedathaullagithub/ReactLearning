@@ -9,18 +9,38 @@ import { RadioBtn, TextFields, SnackbarMsg } from "./components";
 const elements ={
   firstName:{name: 'firstName', label: 'First Name'},
     lastName:{name: 'lastName', label: 'Last Name'},
-    userName:{name: 'userName', label: 'Username'},
+    userName:{name: 'userName', label: 'Username (E-mail)'},
     password:{name: 'password', label: 'Password'},
     cnfPassword:{name: 'cnfPassword', label: 'Confirm Password'},
     // createdOn: {name: 'firstName', label: 'First Name'},
 }
 
 const validationSchema = object().shape({
-    [elements.firstName.name]:string().required('required'),
-    [elements.lastName.name]:string().required('required'),
-    [elements.userName.name]:string().required('required'),
-    [elements.password.name]:string().required('required'),
-    [elements.cnfPassword.name]:string().required('required').oneOf([ref('password'), 'password must be same']),
+    // [elements.firstName.name]:string().lowercase().strict().matches(/^[a-z]+$/, { excludeEmptyString: true, message:'only alphabets' }).required('required'),
+    [elements.firstName.name]:string().test(
+      'MyTestName',
+      'first name and last name should not be equal',
+      (firstName, obj) => {
+        if(firstName !== obj.parent?.lastName){
+          return true
+        }
+        return false
+      }
+      
+    ).required('required'),
+    [elements.lastName.name]:string().test(
+      'MyTestName',
+      'first name and last name should not be equal',
+      (lastName, obj) =>  {
+      if(lastName !== obj.parent?.firstName){
+        return true
+      }
+      return false
+    }
+    ).required('required'),
+    [elements.userName.name]:string().email().required('required'),
+    [elements.password.name]:string().length(8).required('required'),
+    [elements.cnfPassword.name]:string().required('required').oneOf([ref('password'), null, 'password must be same']),
     // [elements.createdOn]: string().default('jjjj'),
     sex:string().required('required').nullable(),
 })

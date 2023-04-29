@@ -2,9 +2,6 @@ import React from "react";
 import {FormControl, FormLabel, RadioGroup, FormControlLabel, Radio} from '@mui/material';
 
 const RadioBtn = ({register, errors }) => {
-
-  console.log(errors.sex);
-
    return (
     <>
  <FormControl style={{
